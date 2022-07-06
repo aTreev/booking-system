@@ -24,6 +24,7 @@ class RoomDirectoryView {
 
         // display booking form section
         $html.="<div class='booking-page-container'>";
+
             $html.="<div class='booking-page-form container'>";
                 $html.="<form>";
                     $html.="<div class='input-label-container'>";
@@ -45,12 +46,11 @@ class RoomDirectoryView {
                 $html.="</div>";
             $html.="</div>";
 
+            $html.="<div class='room-results-container container' id='room-results-container'>";
+                $html.= $this->availableRooms();
+            $html.="</div>";
         $html.="</div>";
-        
-        // then display results if a date was passed
-        if ($this->controller->getCheckInDate() != null) {
-            $html.="<p>{$this->controller->getCheckInDate() }</p>";
-        }
+
         return [
             'title' => $title,
             'meta' => $meta,
@@ -59,6 +59,25 @@ class RoomDirectoryView {
             'html' => $html,
             'script' => $script
         ];
+    }
+
+    public function availableRooms()
+    {
+        $html = "";
+     
+        if ($this->controller->hasAvailability()) {
+
+            foreach($this->controller->getAvailableRooms() as $room) {
+                $html.= "<h3>{$room->getLabel()}</h3>";
+         
+            }
+        } 
+        else {
+
+        }
+        
+        return $html;
+
     }
 }
 ?>

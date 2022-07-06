@@ -1,8 +1,12 @@
+const checkInInput = $("#check-in-input");
+const checkOutInput = $("#check-out-input");
+const availableDates = $("[date_available=true]");
+const calendars = $(".calendar");
+
 function prepareBookingPage() {
 
-    if ($("#check-in-input").val() != "") $(`[full-date=${$('#check-in-input').val()}]`).addClass("selected");
-    if ($("#check-out-input").val() != "") $(`[full-date=${$('#check-out-input').val()}]`).addClass("selected");
-    console.log($("#check-in-input").val())
+    if (checkInInput.val() != "") $(`[full-date=${$('#check-in-input').val()}]`).addClass("selected");
+    if (checkOutInput.val() != "") $(`[full-date=${$('#check-out-input').val()}]`).addClass("selected");
     prepareCalendarBasicFunc();
     prepareCalendarDateSelection();
 }
@@ -19,10 +23,9 @@ function prepareCalendarDateSelection() {
     let startDate = "";
     let endDate = "";
 
-    const availableDates = $("[date_available=true]");
     //fix this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     availableDates.click(function(){
-        const dateSelected = $(this);
+        const selectedDate = $(this);
         clicks++;
 
         // Third date selected reset to 1 click
@@ -35,16 +38,17 @@ function prepareCalendarDateSelection() {
 
         // Second date selected check for valid dates
         if (clicks == 2) {
-            endDate = new Date($(this).attr("full-date"));
+            endDate = new Date(selectedDate.attr("full-date"));
 
             // valid date
             if (endDate.getTime() > startDate.getTime()) {
-                $("#check-out-input").val($(this).attr("full-date"));
-                dateSelected.addClass("selected");
+                checkOutInput.val(selectedDate.attr("full-date"));
+                selectedDate.addClass("selected");
+                getAvailability(startDate, endDate);
                 hideCalendar();
             } else {
                 // invalid date reset to 1 click
-                $("[date_available=true]").removeClass("selected");
+                availableDates.removeClass("selected");
                 clicks = 1;
             }
         }
@@ -53,26 +57,28 @@ function prepareCalendarDateSelection() {
         if (clicks == 1) {
             availableDates.removeClass("selected");
             startDate = new Date($(this).attr("full-date"));
-            $("#check-in-input").val($(this).attr("full-date"));
-            $("#check-out-input").val("");
-            dateSelected.addClass("selected");
+            checkInInput.val($(this).attr("full-date"));
+            checkOutInput.val("");
+            selectedDate.addClass("selected");
         }
     });
 }
 
 
 function prepareCalendarBasicFunc() {
-    const calendars = $(".calendar");
     const selectDateBtn = $("#select-dates");
+    const leftBtn = $("#calendar-left");
+    const rightBtn = $("#calendar-right");
+
     calendars.eq(0).addClass("current");
     calendars.eq(1).addClass("next");
     
 
-    $("#calendar-left").click(function(){
+    leftBtn.click(function(){
         moveCalendar("prev");
     });
 
-    $("#calendar-right").click(function(){
+    rightBtn.click(function(){
         moveCalendar("next");
     });
 
@@ -100,8 +106,6 @@ function hideCalendar() {
 }
 
 function moveCalendar(direction) {
-    const calendars = $(".calendar");
-
     calendars.each(function(){
         if ($(this).hasClass("current") && direction == "next" && $(this).next().next().hasClass("calendar")) {
 
@@ -125,4 +129,22 @@ function moveCalendar(direction) {
     })
 }
 
+function getAvailability(checkIn, checkOut) {
+    return new Promise(function(resolve){
+        checkIn = checkIn.toISOString().split("T")[0];
+        checkOut = checkOut.toISOString().split("T")[0];
+
+        $.ajax({
+            url: "/ajax-scripts/availability-check.php",
+            method: "POST",
+            data: {
+                checkIn: checkIn,
+                checkOut: checkOut
+            }
+        }).done(function(result){
+            console.log(JSON.parse(result));
+            $('#room-results-container').html(JSON.parse(result));
+        });
+    })
+}
 prepareBookingPage();
