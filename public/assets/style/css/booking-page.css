@@ -1,0 +1,104 @@
+.booking-page-container {
+  background-color: #f5f5f5;
+  padding-top: 40px;
+  min-height: 100vh;
+}
+
+.booking-page-form {
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+  position: relative;
+}
+.booking-page-form form {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+@media (max-width: 1025px) {
+  .booking-page-form form {
+    flex-direction: column;
+  }
+}
+.booking-page-form form .input-label-container {
+  width: 100%;
+}
+.booking-page-form form .input-label-container label {
+  padding-bottom: 5px;
+}
+.booking-page-form form .input-label-container input {
+  padding: 14px;
+  width: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+.booking-page-form form button {
+  width: 100%;
+  padding: 10px !important;
+}
+.booking-page-form .calendar-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  align-items: center;
+  display: none;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 4px 4px 12px lightgrey;
+}
+.booking-page-form .calendar-container.show {
+  display: flex;
+}
+.booking-page-form .calendar-container i {
+  font-size: 24px;
+  cursor: pointer;
+  padding: 6px;
+}
+.booking-page-form .calendar-container .calendar {
+  border-collapse: collapse;
+  display: none;
+  background-color: white;
+}
+.booking-page-form .calendar-container .calendar.current, .booking-page-form .calendar-container .calendar.next {
+  display: table;
+}
+.booking-page-form .calendar-container .calendar caption {
+  padding-bottom: 20px;
+  font-size: 1.8rem;
+  user-select: none;
+}
+.booking-page-form .calendar-container .calendar thead th {
+  padding: 20px;
+  background-color: rgb(37, 37, 37);
+  color: white;
+  user-select: none;
+}
+.booking-page-form .calendar-container .calendar tbody td {
+  padding: 20px;
+  border: 1px solid lightgrey;
+  text-align: center;
+  user-select: none;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+.booking-page-form .calendar-container .calendar tbody td.date-available:hover {
+  background-color: grey;
+  color: white;
+  cursor: pointer;
+}
+.booking-page-form .calendar-container .calendar tbody td.date-available.selected {
+  background-color: red;
+  color: white;
+}
+.booking-page-form .calendar-container .calendar tbody td.date-unavailable {
+  color: rgb(190, 35, 35);
+  text-decoration: line-through;
+}
+.booking-page-form .calendar-container .calendar tbody td.date-past {
+  color: grey;
+}
+
+/*# sourceMappingURL=booking-page.css.map */

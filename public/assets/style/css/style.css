@@ -1,0 +1,384 @@
+@import url("https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+*, html, body, main {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 10px;
+  scroll-behavior: smooth;
+}
+
+h1 {
+  font-size: 5rem;
+  font-family: "Gentium Plus", serif;
+}
+@media (max-width: 736px) {
+  h1 {
+    font-size: 4rem;
+  }
+}
+
+h2 {
+  font-size: 4rem;
+  font-family: "Gentium Plus", serif;
+}
+
+h3 {
+  font-size: 3.5rem;
+  font-family: "Gentium Plus", serif;
+}
+
+h4 {
+  font-size: 3rem;
+  font-family: "Gentium Plus", serif;
+}
+
+p, a {
+  font-size: 1.6rem;
+}
+
+a {
+  font-family: "Gentium Plus", serif;
+}
+
+input, label, select, option {
+  font-size: 1.4rem;
+  display: block;
+}
+
+.container {
+  width: 96%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.link-btn {
+  display: block;
+  color: white;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  text-decoration: none;
+  border: 1px solid white;
+  background-color: black;
+  width: fit-content;
+  padding: 20px 40px;
+  transition: background-color 200ms ease-in-out;
+}
+.link-btn:hover {
+  background: darkgrey;
+}
+
+.body-nav-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black !important;
+  opacity: 0.5;
+  z-index: 15;
+  overflow-y: hidden;
+}
+
+.disable-scroll-y {
+  overflow-y: hidden;
+}
+
+.ignore-overlay {
+  position: relative;
+  z-index: 20;
+}
+
+button {
+  color: white;
+  background-color: black;
+  padding: 8px 12px;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid white;
+  transition: background-color 200ms ease-in-out;
+}
+button:hover {
+  background: darkgrey;
+}
+
+.standard-nav {
+  background: #5e6b62;
+  min-height: 100px;
+  display: flex;
+}
+.standard-nav nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.standard-nav nav .left {
+  color: white;
+}
+.standard-nav nav .right {
+  display: flex;
+  gap: 20px;
+}
+@media (max-width: 1025px) {
+  .standard-nav nav .right {
+    display: none;
+  }
+}
+.standard-nav nav .right a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  transition: color 300ms ease-in-out;
+}
+.standard-nav nav .right a:hover {
+  color: black;
+}
+.standard-nav nav .hamburger-container {
+  display: none;
+  border: 2px solid white;
+  border-radius: 6px;
+  height: fit-content;
+  padding: 8px 10px;
+  align-items: center;
+  cursor: pointer;
+}
+@media (max-width: 1025px) {
+  .standard-nav nav .hamburger-container {
+    display: flex;
+  }
+}
+.standard-nav nav .hamburger-container .hamburger {
+  color: white;
+  font-size: 24px;
+}
+
+.homepage-banner {
+  position: relative;
+  background: rgba(0, 0, 0, 0.6) url("/assets/img/homepage_banner.jfif");
+  background-blend-mode: overlay;
+  height: 110vh;
+  background-size: cover;
+  object-fit: cover;
+  background-repeat: no-repeat center center;
+  display: flex;
+  flex-direction: column;
+}
+.homepage-banner .nav-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  opacity: 0;
+  animation: opacity-in 3s forwards;
+}
+.homepage-banner .nav-container .nav-links-desktop {
+  display: flex;
+  gap: 15px;
+}
+@media (max-width: 1025px) {
+  .homepage-banner .nav-container .nav-links-desktop {
+    display: none;
+  }
+}
+.homepage-banner .nav-container .nav-links-desktop a {
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  color: white;
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  transition: color 300ms ease-in-out;
+}
+.homepage-banner .nav-container .nav-links-desktop a:hover {
+  color: black;
+}
+.homepage-banner .nav-container .hamburger-container {
+  display: none;
+  border: 2px solid white;
+  border-radius: 6px;
+  height: fit-content;
+  padding: 8px 10px;
+  align-items: center;
+  cursor: pointer;
+}
+@media (max-width: 1025px) {
+  .homepage-banner .nav-container .hamburger-container {
+    display: flex;
+  }
+}
+.homepage-banner .nav-container .hamburger-container .hamburger {
+  color: white;
+  font-size: 24px;
+}
+.homepage-banner .content-container {
+  text-align: center;
+  color: white;
+  width: 65%;
+  opacity: 0;
+  animation: 3s header-content-load forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+}
+@media (max-width: 736px) {
+  .homepage-banner .content-container {
+    width: 95%;
+  }
+}
+.homepage-banner .content-container h1 {
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.homepage-banner .content-container p {
+  font-size: 1.8rem;
+  line-height: 1.6;
+  color: #cfcfcf;
+}
+@media (max-width: 736px) {
+  .homepage-banner .content-container p {
+    font-size: 1.6rem;
+  }
+}
+.homepage-banner .content-container a {
+  margin-top: 60px;
+}
+
+@keyframes header-content-load {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacity-in {
+  to {
+    opacity: 1;
+  }
+}
+.nav-links-mobile {
+  position: absolute;
+  top: 0;
+  background: white;
+  width: 85vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  left: -100%;
+  transition: left 300ms ease-in-out;
+}
+.nav-links-mobile.show {
+  left: 0%;
+}
+.nav-links-mobile a {
+  font-size: 2rem;
+}
+
+.booking-section {
+  position: relative;
+  background-color: white;
+  z-index: 5;
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  margin-top: -80px;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 400px;
+}
+@media (max-width: 1025px) {
+  .booking-section {
+    display: none;
+  }
+}
+.booking-section .labels {
+  display: flex;
+}
+.booking-section .labels label {
+  display: block;
+  width: 25%;
+  text-transform: uppercase;
+  color: #6c757d;
+  font-weight: 700;
+  padding-left: 15px;
+}
+.booking-section .inputs {
+  display: flex;
+  gap: 20px;
+}
+.booking-section .inputs input, .booking-section .inputs button, .booking-section .inputs select {
+  width: 25%;
+  padding: 12px 12px;
+}
+.booking-section .inputs input, .booking-section .inputs select {
+  border-radius: 128px;
+  border: none;
+  background-color: rgb(230, 230, 230);
+}
+
+.booking-section-mobile {
+  background-color: white;
+  position: relative;
+  z-index: 5;
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  margin-top: -80px;
+  padding: 40px 30px;
+  display: none;
+  height: 400px;
+  margin-bottom: 20px;
+}
+@media (max-width: 1025px) {
+  .booking-section-mobile {
+    display: block;
+  }
+}
+.booking-section-mobile form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.booking-section-mobile form .form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+.booking-section-mobile form .form-item label {
+  display: block;
+  width: 100%;
+  text-transform: uppercase;
+  color: #6c757d;
+  font-weight: 700;
+  padding-left: 5px;
+}
+.booking-section-mobile form .form-item input, .booking-section-mobile form .form-item select, .booking-section-mobile form .form-item button {
+  width: 100%;
+  padding: 12px;
+}
+.booking-section-mobile form .form-item input, .booking-section-mobile form .form-item select {
+  border: none;
+  background-color: rgb(230, 230, 230);
+}
+.booking-section-mobile form .form-50-container {
+  display: flex;
+  gap: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */

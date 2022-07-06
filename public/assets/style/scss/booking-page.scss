@@ -1,0 +1,113 @@
+@import "variables.scss";
+
+.booking-page-container {
+    background-color: #f5f5f5;
+    padding-top: 40px;
+    min-height: 100vh;
+}
+.booking-page-form {
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    position: relative;
+    form {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        @media (max-width: $breakpointTablet) {
+            flex-direction: column;
+        }
+        .input-label-container {
+            width: 100%;
+            label {
+                padding-bottom: 5px;
+            }
+            input {
+                padding: 14px;
+                width: 100%;
+                user-select: none; 
+                pointer-events: none;
+            }
+        }
+        button {
+            width: 100%;
+            padding: 10px!important;
+        }
+    }
+
+    .calendar-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+        align-items: center;
+        display: none;
+        position: absolute;
+        top: 120px;
+        left: 0;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 4px 4px 12px lightgrey;
+        
+        &.show {
+            display: flex;
+        }
+        i {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 6px;
+        }
+        .calendar {
+            border-collapse: collapse;
+            display: none;
+            background-color: white;
+        
+            &.current, &.next {
+                display: table;
+            }
+            
+            caption {
+                padding-bottom: 20px;
+                font-size: 1.8rem;
+                user-select: none;
+            }
+            thead th {
+                padding: 20px;
+                background-color: rgb(37, 37, 37);
+                color:white;
+                user-select: none;
+            }
+            tbody td {
+                padding: 20px;
+                border: 1px solid lightgrey;
+                text-align: center;
+                user-select: none;
+                font-weight: 600;
+                font-size: 1.6rem;
+                &.date-available {
+                    &:hover {
+                        background-color: grey;
+                        color: white;
+                        cursor: pointer;
+                    }
+        
+                    &.selected {
+                        background-color: red;
+                        color: white;
+                    }
+                }
+                &.date-unavailable {
+                    color: rgb(190, 35, 35);
+                    text-decoration: line-through;
+                    
+                }
+                &.date-past {
+                    color: grey;
+                }
+            }
+        }
+    }
+    
+    
+   
+}
+

@@ -1,0 +1,16 @@
+{
+    "name": "atree/booking-system",
+    "description": "Learning project, my attempts to create a reservation system for hotels/B&Bs",
+    "autoload": {
+        "psr-4": {
+            "BookingSystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "aTreev",
+            "email": "neilrs@gmx.com"
+        }
+    ],
+    "require": {}
+}
