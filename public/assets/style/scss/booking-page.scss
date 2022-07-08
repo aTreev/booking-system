@@ -8,20 +8,46 @@
     .main-container {
         display: flex;
         gap: 15px;
-    }
 
-    .left {
+        @media (max-width: $breakpointTablet) {
+            flex-direction: column;
+        }
 
-    }
+        >.left {
+            width: 60%;
 
-    .right {
-        width: 100%;
+            @media (max-width: $breakpointTablet) {
+                width: 100%;
+            }
+        }
+    
+        >.right {
+            width: 40%;
+            border-left: 1px solid $colourBorder;
+            padding-left: 15px;
 
-        .info-section {
-            background-color: white;
-            padding: 20px;
+            @media (max-width: $breakpointTablet) {
+                width: 100%;
+                border-left-color: transparent;
+                padding-left: 0;
+            }
+
+            .info-section {
+                background-color: white;
+                padding: 20px;
+                border: 1px solid $colourBorder;
+
+                img {
+                    object-fit: cover;
+                    background-repeat: no-repeat;
+                    height: 300px;
+                    width: 100%;
+                }
+            }
         }
     }
+
+    
     
 }
 .booking-page-form {
@@ -29,6 +55,8 @@
     background-color: white;
     padding: 20px;
     position: relative;
+    border: 1px solid $colourBorder;
+
     form {
         width: 100%;
         display: flex;
@@ -52,7 +80,7 @@
         button {
             width: 100%;
             height: 55px;
-            width: 450px;
+            margin-top: 17 px;
         }
     }
 
@@ -154,24 +182,65 @@
     margin-top: 20px;
 
     .room-item {
-        display: flex;
-        gap: 15px;
         background: white;
         padding: 20px;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        border: 1px solid $colourBorder;
+
         &:hover {
             box-shadow: 2px 2px 15px lightgrey;
         }
 
-        .left {
-            img { width: 200px;}
-            border: 1px solid lightgrey;
-            border-radius: 6px;
+        .top {
+            border-bottom: 1px solid $colourBorder;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+
+            .room-label {
+                font-weight: 700;
+                color: $colourTextMutedDark;
+            }
+            .room-sleeps {
+                font-weight: 700;
+                font-style: italic;
+                color: $colourTextMutedDark;
+            }
         }
         
-        .right {
-
+        .bottom {
+            display: flex;
+            gap: 15px;
+            
+            .left {
+                img { 
+                    width: 250px;
+                    border-radius: 6px;
+                    border: 1px solid lightgrey;
+                }
+            }
+            
+            .right {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 15px;
+                .room-price {
+                    font-weight: 700;
+                    color: rgb(34, 111, 255);
+                    opacity: 0.8;
+                }
+                .room-description {
+                    line-height: 1.8;
+                    font-size: 1.4rem;
+                    color: $colourTextMutedDark;
+                }
+            }
         }
+        
     }
 
     .no-rooms-message {

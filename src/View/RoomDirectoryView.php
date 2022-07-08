@@ -56,6 +56,7 @@ class RoomDirectoryView {
 
                 $html.="<div class='right'>";
                     $html.="<div class='info-section'>";
+                        $html.="<img src='/assets/img/ceol-na-mara-house.jpg' />";
                         $html.="<div class='info-item'><p>Check In: ".constant("check_in_time")."</p></div>";
                         $html.="<div class='info-item'><p>Check Out: ".constant("check_out_time")."</p></div>";
                         $html.="<div class='info-item'><p>".constant("contact_number")."</p></div>";
@@ -83,13 +84,22 @@ class RoomDirectoryView {
             $availableRooms = $this->controller->getAvailableRooms();
             foreach($availableRooms as $room) {
                 $html.="<div class='room-item' room-id='{$room->getId()}'>";
-                    $html.="<div class='left'>";
-                        $html.="<img src='{$room->getDisplayImage()}' />";
+
+                    $html.="<div class='top'>";
+                        $html.="<p class='room-label'>{$room->getLabel()}</p>";
+                        $html.="<p class='room-sleeps'>Sleeps {$room->getSleeps()}</p>";
                     $html.="</div>";
-                    $html.="<div class='right'>";
-                        $html.="<h3>{$room->getLabel()}</h3>";
-                        $html.="<p>£".$room->getPrice() * $this->controller->getBookingLength()."</p>";
+
+                    $html.="<div class='bottom'>";
+                        $html.="<div class='left'>";
+                            $html.="<img src='{$room->getDisplayImage()}' />";
+                        $html.="</div>";
+                        $html.="<div class='right'>";
+                            $html.="<p class='room-price'>Price £".$room->getPrice() * $this->controller->getBookingLength()."</p>";
+                            $html.="<p class='room-description'>{$room->getDescription()}</p>";
+                        $html.="</div>";
                     $html.="</div>";
+
                 $html.="</div>";
          
             }

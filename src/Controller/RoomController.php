@@ -7,8 +7,8 @@ use DateTime;
 class RoomController extends RoomModel {
     private $id;
     private $label;
-    private $sleeps_adult;
-    private $sleeps_child;
+    private $sleeps;
+    private $pice;
     private $description;
     private $displayImage;
     private $bookings = array();
@@ -23,12 +23,15 @@ class RoomController extends RoomModel {
     private function setId($id) { $this->id = $id; return $this; }
     private function setLabel($label) { $this->label = $label; return $this; }
     private function setPrice($price) { $this->price = $price; return $this; }
+    private function setSleeps($sleeps) { $this->sleeps = $sleeps; return $this; }
     private function setDescription($desc) { $this->description = $desc; return $this; }
     private function setDisplayImage($img) { $this->displayImage = $img; return $this; }
 
     public function getId() { return $this->id; }
     public function getLabel() { return $this->label; }
     public function getPrice() { return $this->price; }
+    public function getSleeps() { return $this->sleeps; }
+    public function getDescription() { return $this->description; }
     public function getDisplayImage() { return $this->displayImage; }
     public function getBookings () { return $this->bookings; }
     public function getUnavailableDates() { return $this->unavailableDates; }
@@ -38,14 +41,15 @@ class RoomController extends RoomModel {
         return parent::getRoomDetailsModel();
     }
 
-    public function initRoom($room) 
+    public function initRoom($roomData) 
     {
         $this->
-        setID($room['id'])->
-        setLabel($room['label'])->
-        setPrice($room['price'])->
-        setDescription($room['description'])->
-        setDisplayImage($room['display_image']);
+        setID($roomData['id'])->
+        setLabel($roomData['label'])->
+        setSleeps($roomData['sleeps'])->
+        setPrice($roomData['price'])->
+        setDescription($roomData['description'])->
+        setDisplayImage($roomData['display_image']);
 
         $this->loadBookings();
         $this->checkUnavailableDates();
