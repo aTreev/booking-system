@@ -29,6 +29,17 @@ input, label, select, option { font-size: 1.4rem; display: block;}
     }
 }
 
+.container-lg {
+    width: 96%;
+    padding-left: 2%;
+    padding-right: 2%;
+    @media (min-width: 1400px) {
+        max-width: 1400px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
 .link-btn {
     display: block;
     color: white;

@@ -1,3 +1,5 @@
+// Fix the global/local state mess
+
 const checkInInput = $("#check-in-input");
 const checkOutInput = $("#check-out-input");
 const availableDates = $("[date_available=true]");
@@ -5,8 +7,16 @@ const calendars = $(".calendar");
 
 function prepareBookingPage() {
 
-    if (checkInInput.val() != "") $(`[full-date=${$('#check-in-input').val()}]`).addClass("selected");
-    if (checkOutInput.val() != "") $(`[full-date=${$('#check-out-input').val()}]`).addClass("selected");
+    if (checkInInput.val() != "") {
+        $(`[full-date=${$('#check-in-input').val()}]`).addClass("selected");
+    }
+    if (checkOutInput.val() != "") {
+        $(`[full-date=${$('#check-out-input').val()}]`).addClass("selected");
+    }
+    if (checkInInput.val() != "" && checkOutInput.val() != "") {
+        prepareRoomLinks(checkInInput.val(), checkOutInput.val());  
+    }
+
     prepareCalendarBasicFunc();
     prepareCalendarDateSelection();
 }
@@ -17,13 +27,18 @@ function prepareBookingPage() {
 /******************
  * The following Calendar code is currently a proof of concept
  * and can / will be further optimized for re-usability
+ * 
+ * 
+ * Checks how many clicks has occurred on the calendar
+ * 1st click - Check in selection, resets calendar and highlights check in date
+ * 2nd click - Check out date selection, check for valid date then load html for available rooms and call the prepareRoomLinks function
+ * 3rd click - Remove all selection highlighting, reset values and set clicks to 1 to make this click a check in selection
  *********/
 function prepareCalendarDateSelection() {
     let clicks = 0;
     let startDate = "";
     let endDate = "";
 
-    //fix this@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     availableDates.click(function(){
         const selectedDate = $(this);
         clicks++;
@@ -40,12 +55,21 @@ function prepareCalendarDateSelection() {
         if (clicks == 2) {
             endDate = new Date(selectedDate.attr("full-date"));
 
-            // valid date
+            // valid date check for available rooms
             if (endDate.getTime() > startDate.getTime()) {
                 checkOutInput.val(selectedDate.attr("full-date"));
                 selectedDate.addClass("selected");
-                getAvailability(startDate, endDate);
-                hideCalendar();
+
+                getAvailability(startDate, endDate).then(function(response){
+                    $('#calendar-loader').show();
+                    setTimeout(() => {
+                        $('#room-results-container').html(response.html);
+                        prepareRoomLinks(startDate, endDate)
+                        hideCalendar();
+                        $('#calendar-loader').hide();
+                    }, 500);
+                });
+
             } else {
                 // invalid date reset to 1 click
                 availableDates.removeClass("selected");
@@ -82,6 +106,7 @@ function prepareCalendarBasicFunc() {
         moveCalendar("next");
     });
 
+    // Change this to make closing the calendar more user friendly
     selectDateBtn.click(function(ev){
         ev.preventDefault();
         showCalendar();
@@ -129,6 +154,7 @@ function moveCalendar(direction) {
     })
 }
 
+
 function getAvailability(checkIn, checkOut) {
     return new Promise(function(resolve){
         checkIn = checkIn.toISOString().split("T")[0];
@@ -142,9 +168,24 @@ function getAvailability(checkIn, checkOut) {
                 checkOut: checkOut
             }
         }).done(function(result){
-            console.log(JSON.parse(result));
-            $('#room-results-container').html(JSON.parse(result));
+            resolve(JSON.parse(result));
         });
     })
+}
+
+
+/**********
+ * Adds links to booking page to each room with the checkInDate and checkOutDate
+ */
+function prepareRoomLinks(checkInDate, checkOutDate) {
+    const rooms = $(".room-item");
+
+    rooms.each(function(){
+        const roomId = $(this).attr("room-id");
+
+        $(this).click(function(){
+            window.location.href = `/booking?room_id=${roomId}&check_in=${checkInDate}&check_out=${checkOutDate}`;
+        });
+    });
 }
 prepareBookingPage();

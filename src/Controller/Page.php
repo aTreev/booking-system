@@ -140,7 +140,7 @@ class Page {
      ******************************************/
     public function displayPage($view) 
     {
-        if (array_key_exists('title',$view)) $viewTitle = $view['title']; else $viewTitle = "Ceol-na-mara";
+        if (array_key_exists('title',$view) && $view['title'] != "") $viewTitle = $view['title']; else $viewTitle = constant("app_default_title");
         if (array_key_exists('style',$view)) $viewStyle = "<link rel='stylesheet' href='".$view['style']."' />"; else $viewStyle = "";
         if (array_key_exists("nav", $view)) $viewNav = $view['nav']; else $viewNav = "";
         if (array_key_exists('html',$view)) $viewHtml = $view['html']; else $viewHtml = "";

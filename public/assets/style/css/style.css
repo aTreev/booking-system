@@ -59,6 +59,19 @@ input, label, select, option {
   }
 }
 
+.container-lg {
+  width: 96%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+@media (min-width: 1400px) {
+  .container-lg {
+    max-width: 1400px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 .link-btn {
   display: block;
   color: white;

@@ -4,6 +4,25 @@
     background-color: #f5f5f5;
     padding-top: 40px;
     min-height: 100vh;
+
+    .main-container {
+        display: flex;
+        gap: 15px;
+    }
+
+    .left {
+
+    }
+
+    .right {
+        width: 100%;
+
+        .info-section {
+            background-color: white;
+            padding: 20px;
+        }
+    }
+    
 }
 .booking-page-form {
     width: 100%;
@@ -14,6 +33,7 @@
         width: 100%;
         display: flex;
         gap: 20px;
+        align-items: center;
         @media (max-width: $breakpointTablet) {
             flex-direction: column;
         }
@@ -31,7 +51,8 @@
         }
         button {
             width: 100%;
-            padding: 10px!important;
+            height: 55px;
+            width: 450px;
         }
     }
 
@@ -48,6 +69,23 @@
         padding: 20px;
         box-shadow: 4px 4px 12px lightgrey;
         
+        .loader-container {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.92);
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: none;
+
+            .loader {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+
         &.show {
             display: flex;
         }
@@ -106,8 +144,39 @@
             }
         }
     }
-    
-    
-   
 }
 
+
+.room-results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+
+    .room-item {
+        display: flex;
+        gap: 15px;
+        background: white;
+        padding: 20px;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 2px 2px 15px lightgrey;
+        }
+
+        .left {
+            img { width: 200px;}
+            border: 1px solid lightgrey;
+            border-radius: 6px;
+        }
+        
+        .right {
+
+        }
+    }
+
+    .no-rooms-message {
+        background-color: #f8e4e8;
+        padding: 20px;
+        color: $colourWarnRed;
+    }
+}

@@ -24,30 +24,44 @@ class RoomDirectoryView {
 
         // display booking form section
         $html.="<div class='booking-page-container'>";
+            $html.="<div class='container-lg main-container'>";
 
-            $html.="<div class='booking-page-form container'>";
-                $html.="<form>";
-                    $html.="<div class='input-label-container'>";
-                        $html.="<label for='check-in-input'>Check In</label>";
-                        $html.= "<input type='date' readonly id='check-in-input' value='".$this->controller->getCheckInDate()."'/>";
+                $html.="<div class='left'>";
+                    $html.="<div class='booking-page-form'>";
+                        $html.="<form>";
+                            $html.="<div class='input-label-container'>";
+                                $html.="<label for='check-in-input'>Check In</label>";
+                                $html.= "<input type='date' readonly id='check-in-input' value='".$this->controller->getCheckInDate()."'/>";
+                            $html.="</div>";
+                            $html.="<div class='input-label-container'>";
+                                $html.="<label for='check-out-input'>Check Out</label>";
+                                $html.= "<input type='date' readonly id='check-out-input' value='".$this->controller->getCheckOutDate()."'/>";
+                            $html.="</div>";
+                            $html.="<button id='select-dates'>Select Dates</button>";
+                        $html.="</form>";
+                        $html.="<div class='calendar-container'>";
+                            $html.= "<div id='calendar-loader' class='loader-container'><img class='loader' src='/assets/img/loader.gif' /></div>";
+                            $html.="<i class='fa-solid fa-angle-left' id='calendar-left'></i>";
+                            foreach($this->controller->getCalendar() as $calendar) {
+                                $html.= $calendar->view();
+                            }
+                            $html.="<i class='fa-solid fa-angle-right' id='calendar-right'></i>";
+                        $html.="</div>";
                     $html.="</div>";
-                    $html.="<div class='input-label-container'>";
-                        $html.="<label for='check-out-input'>Check Out</label>";
-                        $html.= "<input type='date' readonly id='check-out-input' value='".$this->controller->getCheckOutDate()."'/>";
+
+                    $html.="<div class='room-results-container' id='room-results-container'>";
+                        $html.= $this->availableRooms();
                     $html.="</div>";
-                    $html.="<button id='select-dates'>Select Dates</button>";
-                $html.="</form>";
-                $html.="<div class='calendar-container'>";
-                    $html.="<i class='fa-solid fa-angle-left' id='calendar-left'></i>";
-                    foreach($this->controller->getCalendar() as $calendar) {
-                        $html.= $calendar->view();
-                    }
-                    $html.="<i class='fa-solid fa-angle-right' id='calendar-right'></i>";
                 $html.="</div>";
-            $html.="</div>";
 
-            $html.="<div class='room-results-container container' id='room-results-container'>";
-                $html.= $this->availableRooms();
+                $html.="<div class='right'>";
+                    $html.="<div class='info-section'>";
+                        $html.="<div class='info-item'><p>Check In: ".constant("check_in_time")."</p></div>";
+                        $html.="<div class='info-item'><p>Check Out: ".constant("check_out_time")."</p></div>";
+                        $html.="<div class='info-item'><p>".constant("contact_number")."</p></div>";
+                        $html.="<div class='info-item'><p></p></div>";
+                    $html.="</div>";
+                $html.="</div>";
             $html.="</div>";
         $html.="</div>";
 
@@ -66,14 +80,24 @@ class RoomDirectoryView {
         $html = "";
      
         if ($this->controller->hasAvailability()) {
-
-            foreach($this->controller->getAvailableRooms() as $room) {
-                $html.= "<h3>{$room->getLabel()}</h3>";
+            $availableRooms = $this->controller->getAvailableRooms();
+            foreach($availableRooms as $room) {
+                $html.="<div class='room-item' room-id='{$room->getId()}'>";
+                    $html.="<div class='left'>";
+                        $html.="<img src='{$room->getDisplayImage()}' />";
+                    $html.="</div>";
+                    $html.="<div class='right'>";
+                        $html.="<h3>{$room->getLabel()}</h3>";
+                        $html.="<p>£".$room->getPrice() * $this->controller->getBookingLength()."</p>";
+                    $html.="</div>";
+                $html.="</div>";
          
             }
         } 
         else {
-
+            $html.="<div class='no-rooms-message'>";
+                $html.="<p>No availability found for selected dates, please try another date.</p>";
+            $html.="</div>";
         }
         
         return $html;

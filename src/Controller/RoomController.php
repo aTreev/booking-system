@@ -10,6 +10,7 @@ class RoomController extends RoomModel {
     private $sleeps_adult;
     private $sleeps_child;
     private $description;
+    private $displayImage;
     private $bookings = array();
     private $unavailableDates = array();
     private $calendar = array();
@@ -21,12 +22,14 @@ class RoomController extends RoomModel {
 
     private function setId($id) { $this->id = $id; return $this; }
     private function setLabel($label) { $this->label = $label; return $this; }
-    private function setSleepsAdult($adults) { $this->sleeps_adult = $adults; return $this; }
-    private function setSleepsChild($children) { $this->sleeps_child = $children; return $this; }
+    private function setPrice($price) { $this->price = $price; return $this; }
     private function setDescription($desc) { $this->description = $desc; return $this; }
+    private function setDisplayImage($img) { $this->displayImage = $img; return $this; }
 
     public function getId() { return $this->id; }
     public function getLabel() { return $this->label; }
+    public function getPrice() { return $this->price; }
+    public function getDisplayImage() { return $this->displayImage; }
     public function getBookings () { return $this->bookings; }
     public function getUnavailableDates() { return $this->unavailableDates; }
 
@@ -40,9 +43,9 @@ class RoomController extends RoomModel {
         $this->
         setID($room['id'])->
         setLabel($room['label'])->
-        setSleepsAdult($room['sleeps_adult'])->
-        setSleepsChild($room['sleeps_child'])->
-        setDescription($room['description']);
+        setPrice($room['price'])->
+        setDescription($room['description'])->
+        setDisplayImage($room['display_image']);
 
         $this->loadBookings();
         $this->checkUnavailableDates();
@@ -62,12 +65,11 @@ class RoomController extends RoomModel {
 
     private function checkUnavailableDates()
     {
-
         // iterate through the room's bookings
         foreach($this->bookings as $booking) {
             // Get the checkIn & checkOut dates
             $bookingStartDate = strtotime($booking->getCheckInDate()) ? strtotime($booking->getCheckInDate()) : DateTime::createFromFormat('Y-m-d', $booking->getCheckInDate())->getTimestamp();
-            $bookingEndDate = strtotime($booking->getCheckOutDate()) ? strtotime($booking->getCheckOutDate()) - 86400 : DateTime::createFromFormat('Y-m-d', $booking->getCheckOutDate())->getTimestamp() - 86400; // checkout day - 1 day to allow for same day checkout/checkin
+            $bookingEndDate = strtotime($booking->getCheckOutDate()) ? strtotime($booking->getCheckOutDate()) : DateTime::createFromFormat('Y-m-d', $booking->getCheckOutDate())->getTimestamp(); // checkout day - 1 day (-86400) to allow for same day checkout/checkin
 
             // Iterate through the dates inbetween
             while ($bookingStartDate <= $bookingEndDate) {
@@ -82,29 +84,23 @@ class RoomController extends RoomModel {
 
 
     //**************************************************************** */
+    // Logic
     public function checkAvailable($checkInDate, $checkOutDate)
     {
-        // Iterate through bookings
-        foreach($this->bookings as $booking) {
-            // convert checkIn/CheckOut dates to time
-            $current = strtotime($booking->getCheckInDate());
-            $last = strtotime($booking->getCheckOutDate()) - 86400; // checkout day - 1 day to allow for same day checkout/checkin
+        // get start and end date
+        $requestedDates = array();
+        $start = strtotime($checkInDate);
+        $end = strtotime($checkOutDate);
 
-            $daysIterated = 0;
-            // Iterate through the days
-            while( $current <= $last ) {
-                // Check for date match return false if found
-                if (date("Y-m-d", $current) == $checkInDate) return false;
-                // Skip check_in days for check_out day check
-                if ($daysIterated > 0) {
-                    if (date("Y-m-d", $current) == $checkOutDate) return false;
-                }
-                    
-                $current = strtotime("+1 day", $current);
-                $daysIterated++;
-            }
+        // add all dates in between to the array
+        while($start <= $end) {
+            array_push($requestedDates, date("Y-m-d", $start));
+            $start = strtotime("+1 day", $start);
         }
-        // End of foreach, Room available, return true
+
+        // Return false if any dates match
+        if (array_intersect($this->unavailableDates, $requestedDates)) return false;
+
         return true;
     }
 

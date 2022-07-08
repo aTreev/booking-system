@@ -15,12 +15,13 @@ class RoomDirectory {
     private $rooms = array();
     public $availableRooms = array();
 
+    private $bookingLength;
     private $view;
 
     public function __construct()
     {
         $this->loadRooms();
-        $this->calculateUnavailableDates();
+        $this->loadUnavailableDates();
         $this->constructCalendar();
     }
 
@@ -29,6 +30,13 @@ class RoomDirectory {
         $this->setCheckOutDate($checkOutDate);
         $this->setGuestCount($guests);
         $this->checkAvailability();
+
+        $start = strtotime($checkInDate);
+        $end = strtotime($checkOutDate);
+        while ($start < $end) {
+            $this->bookingLength += 1;
+            $start = strtotime("+1 day",$start);
+        }
     }
     
     private function setCheckInDate($checkInDate) { $this->checkInDate = $checkInDate; }
@@ -40,6 +48,7 @@ class RoomDirectory {
     public function getGuestCount() { return $this->guestCount; }
     public function hasAvailability() { return $this->availableRooms; }
     public function getAvailableRooms() { return $this->availableRooms; }
+    public function getBookingLength() { return $this->bookingLength; }
     public function getCalendar() { return $this->calendar; }
     public function getView() { return $this->view = new RoomDirectoryView($this); }
 
@@ -65,7 +74,7 @@ class RoomDirectory {
     }
 
 
-    private function calculateUnavailableDates()
+    private function loadUnavailableDates()
     {
         $bookingDates = array();
         $unavailableDates = array();
