@@ -57,9 +57,10 @@ class RoomDirectoryView {
                 $html.="<div class='right'>";
                     $html.="<div class='info-section'>";
                         $html.="<img src='/assets/img/ceol-na-mara-house.jpg' />";
-                        $html.="<div class='info-item'><p>Check In: ".constant("check_in_time")."</p></div>";
-                        $html.="<div class='info-item'><p>Check Out: ".constant("check_out_time")."</p></div>";
-                        $html.="<div class='info-item'><p>".constant("contact_number")."</p></div>";
+                        $html.="<p class='info-item-heading'>Information</p>";
+                        $html.="<div class='info-item'><i class='fa-solid fa-mobile-screen'></i><p>".constant("contact_number")."</p></div>";
+                        $html.="<div class='info-item'><i class='fa-solid fa-arrow-right-to-bracket'></i><p>Check In: ".constant("check_in_time")."</p></div>";
+                        $html.="<div class='info-item'><i class='fa-solid fa-arrow-right-to-bracket exit'></i><p>Check Out: ".constant("check_out_time")."</p></div>";
                         $html.="<div class='info-item'><p></p></div>";
                     $html.="</div>";
                 $html.="</div>";
